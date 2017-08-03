@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<field name="typ" type="list" default="css_url" class="btn-group btn-group-yesno" label="PLG_CNTOOLS_ADDFILES_TYPE" description="">
+		<option value="css_url">PLG_CNTOOLS_ADDFILES_CSS_URL</option>
+		<option value="css_code">PLG_CNTOOLS_ADDFILES_CSS_CODE</option>
+		<option value="js_url">PLG_CNTOOLS_ADDFILES_JS_URL</option>
+		<option value="js_code">PLG_CNTOOLS_ADDFILES_JS_CODE</option>
+	</field>
+	<field name="css_url" showon="typ:css_url" size="20" type="url" default="" label="PLG_CNTOOLS_ADDFILES_CSS_URL" description="" />
+	<field name="css_url_type" showon="typ:css_url" size="20" type="text" description="text/css" label="PLG_CNTOOLS_ADDFILES_CSS_TYPE" default="" />
+	
+	<field name="css_code" showon="typ:css_code" type="textarea" default="" label="PLG_CNTOOLS_ADDFILES_CSS_CODE" description="" rows="10" cols="5" filter="raw"/>
+	<field name="css_code_type" showon="typ:css_code" size="20" type="text" description="text/css" label="PLG_CNTOOLS_ADDFILES_CSS_TYPE" default="" />
+
+	<field name="js_url" showon="typ:js_url" size="20" type="url" default="" label="PLG_CNTOOLS_ADDFILES_JS_URL" description="" />
+	<field name="js_url_type" showon="typ:js_url" size="20" type="text" description="text/javascript" label="PLG_CNTOOLS_ADDFILES_JS_TYPE" default="" />
+
+	<field name="js_code" showon="typ:js_code" type="textarea" default="" label="PLG_CNTOOLS_ADDFILES_JS_CODE" description="" rows="10" cols="5" filter="raw"/>
+	<field name="js_code_type" showon="typ:js_code" size="20" type="text" description="text/javascript" label="PLG_CNTOOLS_ADDFILES_JS_TYPE" default="" />
+</form>
