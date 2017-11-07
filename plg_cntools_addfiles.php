@@ -27,25 +27,20 @@ class PlgSystemplg_cntools_addfiles extends JPlugin
 	//-- onBeforeRender -------------------------------------------------------
 	function onBeforeRender ()
 	{
-		$app = JFactory::getApplication();
-		if($app->isAdmin() === true)
+		if ($this->params->get('customfiles'))
 		{
-			return;
-		}
-
-		$document = JFactory::getDocument();
-		
-		if ($this->params->get('customfiles')){
-	//$document->addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array());
-	//$document->addScript($url, $type = "text/javascript", $defer = false, $async = false);
-	//$document->addStyleDeclaration($content, $type = 'text/css');
-	//$document->addScriptDeclaration($content, $type = 'text/javascript');
+//$document->addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array());
+//$document->addScript($url, $type = "text/javascript", $defer = false, $async = false);
+//$document->addStyleDeclaration($content, $type = 'text/css');
+//$document->addScriptDeclaration($content, $type = 'text/javascript');
+			$app = JFactory::getApplication();
+			$document = JFactory::getDocument();
 			$lCustomFiles = $this->params->get('customfiles');
 			foreach ($lCustomFiles as $lCustomObj)
 			{
-				if (is_object($lCustomObj) and property_exists($lCustomObj, 'typ'))
+				if (is_object($lCustomObj) and property_exists($lCustomObj, 'typ') and (($app->isAdmin() === false) or ($lCustomObj->use_on_admin == '1')))
 				{
-					if ($lCustomObj->typ == 'css_url')
+					if (($lCustomObj->typ == 'css_url') and ($lCustomObj->css_url != ''))
 					{
 						if ($lCustomObj->css_url_type != '')
 						{
@@ -58,16 +53,16 @@ class PlgSystemplg_cntools_addfiles extends JPlugin
 					{
 						if ($lCustomObj->css_code_type != '')
 						{
-							$document->addStyleSheet($lCustomObj->css_url, $lCustomObj->css_code_type);
+							$document->addStyleDeclaration($lCustomObj->css_code, $lCustomObj->css_code_type);
 						} else {
 							$document->addStyleDeclaration($lCustomObj->css_code);
 						}
 					} 
-					elseif ($lCustomObj->typ == 'js_url')
+					elseif (($lCustomObj->typ == 'js_url') and ($lCustomObj->js_url != ''))
 					{
 						if ($lCustomObj->js_url_type != '')
 						{
-							$document->addStyleSheet($lCustomObj->css_url, $lCustomObj->js_url_type);
+							$document->addScript($lCustomObj->js_url, $lCustomObj->js_url_type);
 						} else {
 							$document->addScript($lCustomObj->js_url);
 						}
@@ -76,7 +71,7 @@ class PlgSystemplg_cntools_addfiles extends JPlugin
 					{
 						if ($lCustomObj->js_code_type != '')
 						{
-							$document->addStyleSheet($lCustomObj->css_url, $lCustomObj->js_code_type);
+							$document->addScriptDeclaration($lCustomObj->js_code, $lCustomObj->js_code_type);
 						} else {
 							$document->addScriptDeclaration($lCustomObj->js_code);
 						}
@@ -84,6 +79,75 @@ class PlgSystemplg_cntools_addfiles extends JPlugin
 				}
 			}
 		}
+		return true;
+	}
+	
+	function onAfterRender()
+	{
+		if ($this->params->get('customfiles'))
+		{
+			$app = JFactory::getApplication();
+			$lDoSet = false;
+			$fullPage = JResponse::getBody();
+			$lCustomFiles = $this->params->get('customfiles');
+			foreach ($lCustomFiles as $lCustomObj)
+			{
+				if (is_object($lCustomObj) and property_exists($lCustomObj, 'typ') and (($app->isAdmin() === false) or ($lCustomObj->use_on_admin == '1')))
+				{
+					if (($lCustomObj->typ == 'tag_code') and ($lCustomObj->tag_code != ''))
+					{
+						//stripos - Find the position of the first occurrence of "php" inside the string
+						if ($lCustomObj->tag_code_find == '0')
+						{
+							if (stripos($fullPage, $lCustomObj->tag_code_type))
+							{
+								$lPos = stripos($fullPage, $lCustomObj->tag_code_type);
+								if ($lCustomObj->tag_code_pos == '0')
+								{
+									//before
+									$fullPage = substr($fullPage, 0, $lPos) . $lCustomObj->tag_code . substr($fullPage, $lPos);
+									$lDoSet = true;
+								}
+								elseif ($lCustomObj->tag_code_pos == '1')
+								{
+									//after
+									$lTagCodeLen = strlen($lCustomObj->tag_code_type);
+									$fullPage = substr($fullPage, 0, $lPos + $lTagCodeLen) . $lCustomObj->tag_code . substr($fullPage, $lPos + $lTagCodeLen);
+									$lDoSet = true;
+								}
+							}
+						}
+						//strripos - Find the position of the last occurrence of "php" inside the string
+						elseif ($lCustomObj->tag_code_find == '1')
+						{
+							if (strripos($fullPage, $lCustomObj->tag_code_type))
+							{
+								$lPos = strripos($fullPage, $lCustomObj->tag_code_type);
+								if ($lCustomObj->tag_code_pos == '0')
+								{
+									//before
+									$fullPage = substr($fullPage, 0, $lPos) . $lCustomObj->tag_code . substr($fullPage, $lPos);
+									$lDoSet = true;
+								}
+								elseif ($lCustomObj->tag_code_pos == '1')
+								{
+									//after
+									$lTagCodeLen = strlen($lCustomObj->tag_code_type);
+									$fullPage = substr($fullPage, 0, $lPos + $lTagCodeLen) . $lCustomObj->tag_code . substr($fullPage, $lPos + $lTagCodeLen);
+									$lDoSet = true;
+								}
+							}
+						}
+					} 
+				}
+			}
+			
+			if ($lDoSet == true)
+			{
+				JResponse::setBody($fullPage);
+			}
+		}
+		
 		return true;
 	}
 }

@@ -5,16 +5,37 @@
 		<option value="css_code">PLG_CNTOOLS_ADDFILES_CSS_CODE</option>
 		<option value="js_url">PLG_CNTOOLS_ADDFILES_JS_URL</option>
 		<option value="js_code">PLG_CNTOOLS_ADDFILES_JS_CODE</option>
+		<option value="tag_code">PLG_CNTOOLS_ADDFILES_TAG_CODE</option>
 	</field>
+	
 	<field name="css_url" showon="typ:css_url" size="20" type="url" default="" label="PLG_CNTOOLS_ADDFILES_CSS_URL" description="" />
 	<field name="css_url_type" showon="typ:css_url" size="20" type="text" description="text/css" label="PLG_CNTOOLS_ADDFILES_CSS_TYPE" default="" />
 	
-	<field name="css_code" showon="typ:css_code" type="textarea" default="" label="PLG_CNTOOLS_ADDFILES_CSS_CODE" description="" rows="10" cols="5" filter="raw"/>
+	<field name="css_code" showon="typ:css_code" type="textarea" default="" label="PLG_CNTOOLS_ADDFILES_CSS_CODE" description="" rows="10" cols="15" filter="raw"/>
 	<field name="css_code_type" showon="typ:css_code" size="20" type="text" description="text/css" label="PLG_CNTOOLS_ADDFILES_CSS_TYPE" default="" />
 
 	<field name="js_url" showon="typ:js_url" size="20" type="url" default="" label="PLG_CNTOOLS_ADDFILES_JS_URL" description="" />
 	<field name="js_url_type" showon="typ:js_url" size="20" type="text" description="text/javascript" label="PLG_CNTOOLS_ADDFILES_JS_TYPE" default="" />
 
-	<field name="js_code" showon="typ:js_code" type="textarea" default="" label="PLG_CNTOOLS_ADDFILES_JS_CODE" description="" rows="10" cols="5" filter="raw"/>
+	<field name="js_code" showon="typ:js_code" type="textarea" default="" label="PLG_CNTOOLS_ADDFILES_JS_CODE" description="" rows="10" cols="15" filter="raw"/>
 	<field name="js_code_type" showon="typ:js_code" size="20" type="text" description="text/javascript" label="PLG_CNTOOLS_ADDFILES_JS_TYPE" default="" />
+
+	<field name="tag_code" showon="typ:tag_code" type="textarea" default="" label="PLG_CNTOOLS_ADDFILES_TAG_CODE" description="" rows="10" cols="15" filter="raw"/>
+	<field name="tag_code_type" showon="typ:tag_code" size="20" type="text" default="" label="PLG_CNTOOLS_ADDFILES_TAG_TYPE" description="PLG_CNTOOLS_ADDFILES_TAG_TYPE_DESC" />
+	<field name="tag_code_find" showon="typ:tag_code" type="radio" default="0" class="btn-group" label="PLG_CNTOOLS_ADDFILES_TAG_FIND" description="PLG_CNTOOLS_ADDFILES_TAG_FIND_DESC">
+		<option value="0">PLG_CNTOOLS_ADDFILES_FIRST</option>
+		<option value="1">PLG_CNTOOLS_ADDFILES_LAST</option>
+	</field>
+	<field name="tag_code_pos" showon="typ:tag_code" type="radio" default="0" class="btn-group" label="PLG_CNTOOLS_ADDFILES_TAG_POS" description="PLG_CNTOOLS_ADDFILES_TAG_POS_DESC">
+		<option value="0">PLG_CNTOOLS_ADDFILES_BEFORE</option>
+		<option value="1">PLG_CNTOOLS_ADDFILES_AFTER</option>
+	</field>
+<!--	
+	<field type="note" showon="typ:tag_code[AND]tag_code_pos:0" name="tag_code_pos-desc-before" description="PLG_CNTOOLS_ADDFILES_BEFORE_DESC" />
+	<field type="note" showon="typ:tag_code[AND]tag_code_pos:1" name="tag_code_pos-desc-after" description="PLG_CNTOOLS_ADDFILES_AFTER_DESC" />
+-->
+	<field name="use_on_admin" type="radio" default="0" class="btn-group btn-group-yesno" label="PLG_CNTOOLS_ADDFILES_USE_ON_ADMIN" description="PLG_CNTOOLS_ADDFILES_USE_ON_ADMIN_DESC">
+		<option value="0">JNO</option>
+		<option value="1">JYES</option>
+	</field>
 </form>

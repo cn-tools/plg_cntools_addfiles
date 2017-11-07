@@ -33,6 +33,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="custom" label="PLG_CNTOOLS_ADDFILES_CONFIG">
+				<field type="note" name="note" description="PLG_CNTOOLS_ADDFILES_CONFIG_DESC" />
 				<field name="customfiles" label="" type="subform" multiple="true" formsource="plugins/system/plg_cntools_addfiles/subform/addfiles.xml" groupByFieldset="false" layout="joomla.form.field.subform.repeatable" />
 			</fieldset>
 		</fields>
