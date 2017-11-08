@@ -24,6 +24,29 @@ defined('_JEXEC') or die('Restricted access');
 
 class PlgSystemplg_cntools_addfiles extends JPlugin
 {
+	//-- UseObject ------------------------------------------------------------
+	protected function UseObject($aObj)
+	{
+		$lResult = false;
+		
+		if (is_object($aObj) and property_exists($aObj, 'typ') and property_exists($aObj, 'status'))
+		{
+			if (($aObj->status == '1') or ($aObj->status == '3'))
+			{
+				$lResult = true;
+			}
+			else
+			{
+				$app = JFactory::getApplication();
+				if (($aObj->status == '2') and ($app->isAdmin() === true))
+				{
+					$lResult = true;
+				}
+			}
+		}
+
+		return $lResult;
+	}
 	//-- onBeforeRender -------------------------------------------------------
 	function onBeforeRender ()
 	{
@@ -33,12 +56,11 @@ class PlgSystemplg_cntools_addfiles extends JPlugin
 //$document->addScript($url, $type = "text/javascript", $defer = false, $async = false);
 //$document->addStyleDeclaration($content, $type = 'text/css');
 //$document->addScriptDeclaration($content, $type = 'text/javascript');
-			$app = JFactory::getApplication();
 			$document = JFactory::getDocument();
 			$lCustomFiles = $this->params->get('customfiles');
 			foreach ($lCustomFiles as $lCustomObj)
 			{
-				if (is_object($lCustomObj) and property_exists($lCustomObj, 'typ') and (($app->isAdmin() === false) or ($lCustomObj->use_on_admin == '1')))
+				if ($this->UseObject($lCustomObj) === true)
 				{
 					if (($lCustomObj->typ == 'css_url') and ($lCustomObj->css_url != ''))
 					{
@@ -92,7 +114,7 @@ class PlgSystemplg_cntools_addfiles extends JPlugin
 			$lCustomFiles = $this->params->get('customfiles');
 			foreach ($lCustomFiles as $lCustomObj)
 			{
-				if (is_object($lCustomObj) and property_exists($lCustomObj, 'typ') and (($app->isAdmin() === false) or ($lCustomObj->use_on_admin == '1')))
+				if ($this->UseObject($lCustomObj) === true)
 				{
 					if (($lCustomObj->typ == 'tag_code') and ($lCustomObj->tag_code != ''))
 					{
