@@ -31,14 +31,18 @@ class PlgSystemplg_cntools_addfiles extends JPlugin
 		
 		if (is_object($aObj) and property_exists($aObj, 'typ') and property_exists($aObj, 'status'))
 		{
-			if (($aObj->status == '1') or ($aObj->status == '3'))
+			if ($aObj->status == '3')
 			{
 				$lResult = true;
 			}
 			else
 			{
 				$app = JFactory::getApplication();
-				if (($aObj->status == '2') and ($app->isAdmin() === true))
+				if (($aObj->status == '1') and ($app->isAdmin() === false))
+				{
+					$lResult = true;
+				}
+				elseif (($aObj->status == '2') and ($app->isAdmin() === true))
 				{
 					$lResult = true;
 				}
